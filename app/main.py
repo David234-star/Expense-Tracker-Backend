@@ -21,7 +21,7 @@ app = FastAPI()
 # This allows our React frontend (running on a different port/domain) to talk to our backend.
 origins = [
     "http://localhost:3000",
-    # Add your Vercel frontend URL here once deployed
+    "https://expense-tracker-frontend-pi-three.vercel.app"
 ]
 app.add_middleware(
     CORSMiddleware,
