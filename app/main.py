@@ -36,6 +36,14 @@ app.add_middleware(
 # --- Authentication ---
 
 
+@app.get("/")
+def read_root():
+    """
+    A simple endpoint to confirm the API is running.
+    """
+    return {"message": "Welcome to the Expense Tracker API! Visit /docs for documentation."}
+
+
 @app.post("/signup", response_model=schemas.User, status_code=status.HTTP_201_CREATED)
 def signup_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_username(db, username=user.username)
