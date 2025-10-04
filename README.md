@@ -36,8 +36,8 @@ Follow these instructions to get the backend server running on your local machin
 1.  **Clone the repository:**
 
     ```bash
-    git clone <your-repo-url>
-    cd <your-repo-name>/backend
+    git clone https://github.com/David234-star/Expense-Tracker-Backend.git
+    cd Expense-Tracker-Backend/backend
     ```
 
 2.  **Create and activate a virtual environment:**
