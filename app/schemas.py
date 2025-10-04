@@ -28,7 +28,7 @@ class Expense(ExpenseBase):
     owner_id: int
 
     class Config:
-        orm_mode = True  # Allows Pydantic to read data from ORM models
+        from_attributes = True  # Allows Pydantic to read data from ORM models
 
 # --- User Schemas ---
 
@@ -47,7 +47,7 @@ class User(UserBase):
     expenses: List[Expense] = []
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # --- Token Schemas for JWT ---
 
