@@ -8,7 +8,7 @@ WORKDIR /code
 COPY ./requirements.txt /code/requirements.txt
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt && alembic upgrade head
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # Copy the application code into the container
 COPY ./app /code/app
