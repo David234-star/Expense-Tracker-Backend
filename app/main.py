@@ -1,16 +1,15 @@
-# app/main.py
-from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import OAuth2PasswordRequestForm
-from fastapi.responses import StreamingResponse
-from sqlalchemy.orm import Session
-from typing import List
-from datetime import timedelta
-import io
-import csv
-
-from . import crud, models, schemas, auth
 from .database import engine, get_db
+from . import crud, models, schemas, auth
+import csv
+import io
+from datetime import timedelta
+from typing import List
+from sqlalchemy.orm import Session
+from fastapi.responses import StreamingResponse
+from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Depends, FastAPI, HTTPException, status
+
 
 # Create all database tables on application startup
 models.Base.metadata.create_all(bind=engine)
@@ -132,3 +131,29 @@ def export_expenses_to_csv(current_user: models.User = Depends(auth.get_current_
         headers={
             "Content-Disposition": f"attachment; filename=expenses_{current_user.username}.csv"}
     )
+
+
+@app.post("/forgot-password", status_code=status.HTTP_200_OK)
+async def forgot_password(request: schemas.ForgotPasswordRequest, db: Session = Depends(get_db)):
+    from .email_utils import send_otp_email
+
+    user = crud.get_user_by_email(db, email=request.email)
+    if not user:
+        # Don't reveal if a user exists for security
+        return {"message": "If an account with that email exists, an OTP has been sent."}
+
+    otp = crud.create_otp_for_user(db, user=user)
+
+    await send_otp_email(email=user.email, otp=otp)
+
+    return {"message": "If an account with that email exists, an OTP has been sent."}
+
+
+@app.post("/reset-password/{token}", status_code=status.HTTP_200_OK)
+def reset_password(token: str, request: schemas.ResetPasswordRequest, db: Session = Depends(get_db)):
+    user = crud.get_user_by_reset_token(db, token=token)
+    if not user:
+        raise HTTPException(status_code=400, detail="Invalid or expired token")
+
+    crud.reset_user_password(db, user=user, new_password=request.new_password)
+    return {"message": "Password has been reset successfully."}

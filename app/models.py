@@ -1,5 +1,4 @@
-# app/models.py
-from sqlalchemy import Column, ForeignKey, Integer, String, Float, Date, Boolean
+from sqlalchemy import Column, ForeignKey, Integer, String, Float, Date, Boolean, DateTime
 from sqlalchemy.orm import relationship
 from .database import Base
 
@@ -11,6 +10,8 @@ class User(Base):
     username = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
+    reset_token = Column(String, unique=True, index=True, nullable=True)
+    reset_token_expires = Column(DateTime, nullable=True)
 
     # Relationship to expenses
     expenses = relationship("Expense", back_populates="owner")

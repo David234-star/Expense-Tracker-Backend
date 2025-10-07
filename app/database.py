@@ -1,14 +1,13 @@
-# app/database.py
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 import os
-from dotenv import load_dotenv
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from dotenv import load_dotenv  # this should be here
+
 
 load_dotenv()  # Loads variables from .env file
 
-# Get the Database URL from environment variables
-# It falls back to a local SQLite database if not found.
+
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 # Create the SQLAlchemy engine

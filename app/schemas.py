@@ -1,4 +1,3 @@
-# app/schemas.py
 from pydantic import BaseModel, EmailStr
 from datetime import date
 from typing import List, Optional
@@ -59,3 +58,13 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: Optional[str] = None
+
+
+# ------Password Reset-----
+
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr
+
+
+class ResetPasswordRequest(BaseModel):
+    new_password: str
