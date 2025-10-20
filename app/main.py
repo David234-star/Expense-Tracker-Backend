@@ -20,7 +20,7 @@ app = FastAPI()
 # This allows our React frontend (running on a different port/domain) to talk to our backend.
 origins = [
     "http://localhost:3000",
-    "https://expense-tracker-frontend-david-ranadeers-projects.vercel.app"
+    "https://expense-tracker-frontend-ten-rho.vercel.app/"
 ]
 app.add_middleware(
     CORSMiddleware,
