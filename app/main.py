@@ -19,15 +19,18 @@ app = FastAPI()
 # --- CORS (Cross-Origin Resource Sharing) Middleware ---
 # This allows our React frontend (running on a different port/domain) to talk to our backend.
 origins = [
-    "http://localhost:3000",
-    "https://expense-tracker-frontend-ten-rho.vercel.app/"
+    "http://localhost:3000",          # For local development
+    "http://localhost:5173",          # For local Vite development
+    # For your live Vercel deployment
+    "https://expense-tracker-frontend-ten-rho.vercel.app"
 ]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=origins,            # List of allowed origins
+    allow_credentials=True,           # Allow cookies (important for auth)
+    allow_methods=["*"],              # Allow all methods (GET, POST, etc.)
+    allow_headers=["*"],              # Allow all headers
 )
 
 # === API ENDPOINTS ===
